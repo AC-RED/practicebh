@@ -65,8 +65,24 @@ export default {
   },
   methods: {
     submitLogin () {
-      this.$refs.myFrom.validate(function (allIn) {
-        if (allIn) {}
+      this.$refs.myFrom.validate((allIn) => {
+        if (allIn) {
+          this.$axios({
+            url: '/authorizations',
+            method: 'post',
+            data: this.loginForm
+          }).then(result => {
+            window.localStorage.setItem('user-token', result.data.data.token)
+            // console.log(result)
+            this.$router.push('./home')
+          }).catch(error => {
+            console.log(error)
+            this.$message({
+              message: '请输入正确的手机号和验证码',
+              type: 'warning'
+            })
+          })
+        }
       })
     }
   }

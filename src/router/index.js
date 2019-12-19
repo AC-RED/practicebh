@@ -6,9 +6,10 @@ import axios from 'axios'
 
 Vue.use(VueRouter)
 
+Vue.prototype.$axios = axios
+
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 
-Vue.prototype.$http = axios
 const routes = [
   {
     path: '/',
