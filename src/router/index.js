@@ -2,9 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/home'
 import Login from '../views/login'
+import axios from 'axios'
 
 Vue.use(VueRouter)
 
+axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
+
+Vue.prototype.$http = axios
 const routes = [
   {
     path: '/',
