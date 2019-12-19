@@ -6,7 +6,9 @@
 
   <el-container>
 
-    <el-header>Header</el-header>
+    <el-header>
+      <sub-header></sub-header>
+    </el-header>
 
     <el-main>Main</el-main>
 
@@ -16,9 +18,11 @@
 
 <script>
 import leftNav from '../../components/home/left-nav'
+import subHead from '../../components/home/subject-header'
 export default {
   components: {
-    'left-nav': leftNav
+    'left-nav': leftNav,
+    'sub-header': subHead
   }
 }
 </script>
