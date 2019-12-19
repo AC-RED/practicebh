@@ -2,7 +2,7 @@
 <div class="left-nav">
     <div class="title"><img src="../../assets/img/logo_admin.png" alt=""></div>
 
-    <el-aside>
+    <el-aside style="width:231px">
     <el-col>
    <el-menu background-color='#353b4e' text-color='#adafb5' active-text-color='#ffd04b'>
        <el-menu-item>
@@ -43,6 +43,7 @@ export default {
 <style lang='less' scoped>
 .left-nav{
     width: 230px;
+    overflow: hidden;
     .title{
         background-color: #2e2f32;
         text-align: center;

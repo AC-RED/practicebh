@@ -17,13 +17,9 @@
 </template>
 
 <script>
-import leftNav from '../../components/home/left-nav'
-import subHead from '../../components/home/subject-header'
+
 export default {
-  components: {
-    'left-nav': leftNav,
-    'sub-header': subHead
-  }
+
 }
 </script>
 
