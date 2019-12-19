@@ -6,10 +6,10 @@
     </el-col>
     <el-col :span="6" class="head-right">
       <el-row type="flex" justify="end" align="middle">
-        <img src="../../assets/img/avatar.jpg" alt />
+        <img :src="userInfo.photo?userInfo.photo:defaultImg">
         <el-dropdown class="down-list">
           <span class="el-dropdown-link">
-            下拉菜单
+            {{userInfo.name}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -25,7 +25,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      userInfo: {},
+      defaultImg: require('../../assets/img/avatar.jpg')
+    }
+  },
+  created () {
+    let token = window.localStorage.getItem('user-token')
+    this.$axios({
+      url: '/user/profile',
+      //   method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    }).then(result => {
+      console.log(result.data)
+      this.userInfo = result.data.data
+    })
+  }
+}
 </script>
 
 <style lang='less' scoped>
