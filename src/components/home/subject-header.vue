@@ -7,16 +7,16 @@
     <el-col :span="6" class="head-right">
       <el-row type="flex" justify="end" align="middle">
         <img :src="userInfo.photo?userInfo.photo:defaultImg">
-        <el-dropdown class="down-list">
+        <el-dropdown class="down-list" @command='logout'>
           <span class="el-dropdown-link">
             {{userInfo.name}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>个人信息</el-dropdown-item>
-            <el-dropdown-item>Git地址</el-dropdown-item>
+            <el-dropdown-item command='user'>个人信息</el-dropdown-item>
+            <el-dropdown-item command='gitspc'>Git地址</el-dropdown-item>
             <hr>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item command='logout'>退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-row>
@@ -44,6 +44,16 @@ export default {
       console.log(result.data)
       this.userInfo = result.data.data
     })
+  },
+  methods: {
+    logout (command) {
+      if (command === 'logout') {
+        window.localStorage.removeItem('user-token')
+        this.$router.push('/login')
+      } else if (command === 'gitspc') {
+        window.location.href = 'https://github.com/shuiruohanyu/89heimatoutiao'
+      }
+    }
   }
 }
 </script>
