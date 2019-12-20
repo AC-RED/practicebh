@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/home'
 import Login from '../views/login'
 import axios from 'axios'
+import homeDirect from '../views/home/home'
 
 Vue.use(VueRouter)
 
@@ -19,7 +20,11 @@ const routes = [
     //  主页
     path: '/home',
     name: 'home',
-    component: Home
+    component: Home,
+    children: [{
+      path: '',
+      component: homeDirect
+    }]
   }, {
     // 登录页
     path: '/login',
