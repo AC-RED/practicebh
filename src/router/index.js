@@ -29,6 +29,9 @@ const routes = [
     children: [{
       path: '',
       component: homeDirect
+    }, {
+      path: '/home/comment',
+      component: () => import('../views/comments')
     }]
   }, {
     // 登录页
