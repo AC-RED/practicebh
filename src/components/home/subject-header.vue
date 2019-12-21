@@ -33,13 +33,13 @@ export default {
     }
   },
   created () {
-    let token = window.localStorage.getItem('user-token')
+    // let token = window.localStorage.getItem('user-token')
     this.$axios({
-      url: '/user/profile',
+      url: '/user/profile'
       //   method: 'get',
-      headers: {
-        Authorization: 'Bearer ' + token
-      }
+      // headers: {
+      //   Authorization: 'Bearer ' + token
+      // }
     }).then(result => {
       console.log(result.data)
       this.userInfo = result.data.data

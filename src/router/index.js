@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/home'
 import Login from '../views/login'
-import axios from 'axios'
+import axios from '../utils/request'
 import homeDirect from '../views/home/home'
 
 import Login2 from '../views/login/index2'
@@ -11,7 +11,7 @@ Vue.use(VueRouter)
 
 Vue.prototype.$axios = axios
 
-axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
+// axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 
 const routes = [
   {
