@@ -5,6 +5,8 @@ import Login from '../views/login'
 import axios from 'axios'
 import homeDirect from '../views/home/home'
 
+import Login2 from '../views/login/index2'
+
 Vue.use(VueRouter)
 
 Vue.prototype.$axios = axios
@@ -13,6 +15,9 @@ axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 
 const routes = [
   {
+    path: '/login2',
+    component: Login2
+  }, {
     path: '/',
     redirect: '/home'
   },
