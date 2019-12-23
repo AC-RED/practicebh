@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card v-loading='loading'>
     <crumbs slot="header">
       <template slot="title">评论列表</template>
     </crumbs>
@@ -42,7 +42,8 @@ export default {
         total: 0,
         pageSize: 10,
         currentPage: 1
-      }
+      },
+      loading: false
     }
   },
   methods: {
@@ -53,12 +54,14 @@ export default {
     },
 
     getComment () {
+      this.loading = true
       this.$axios({
         url: '/articles',
         params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(result => {
         this.list = result.data.results
         this.page.total = result.data.total_count
+        this.loading = false
       })
     },
     fromatterBool (row, column, cellValue, index) {
@@ -67,7 +70,6 @@ export default {
     openORcloss (row) {
       let mess = row.comment_status ? '关闭' : '打开'
       this.$confirm(`你确定要${mess}评论吗`).then(() => {
-        debugger
         this.$axios({
           method: 'put',
           url: '/comments/status',
