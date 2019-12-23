@@ -30,8 +30,11 @@ const routes = [
       path: '',
       component: homeDirect
     }, {
-      path: '/home/comment',
+      path: '/home/comment', // 评论管理
       component: () => import('../views/comments')
+    }, {
+      path: 'material', // 素材管理
+      component: () => import('../views/material')
     }]
   }, {
     // 登录页
