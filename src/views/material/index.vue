@@ -1,8 +1,14 @@
 <template>
-  <el-card>
+  <el-card v-loading='loading'>
     <crumbs slot="header">
       <template slot="title">素材管理</template>
     </crumbs>
+
+    <el-row type="flex" justify="end">
+      <el-upload :http-request="uploadImg" :show-file-list="false">
+        <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
+    </el-row>
 
     <el-tabs v-model="activeName" @tab-click="changeTab">
       <el-tab-pane label="全部素材" name="all">
@@ -53,6 +59,7 @@
 export default {
   data () {
     return {
+      loading: false,
       activeName: 'all',
       list: [],
       page: {
@@ -63,6 +70,20 @@ export default {
     }
   },
   methods: {
+    uploadImg (params) {
+      this.loading = true
+      let form = new FormData() // 添加文件到formData
+      form.append('image', params.file)
+
+      this.$axios({
+        method: 'post',
+        url: '/user/images',
+        data: form
+      }).then(result => {
+        this.loading = false
+        this.getAllMaterial()
+      })
+    },
     chengePage (newPage) {
       this.page.currentPage = newPage
       this.getAllMaterial()
@@ -74,7 +95,11 @@ export default {
     getAllMaterial () {
       this.$axios({
         url: '/user/images',
-        params: { collect: this.activeName === 'collect', page: this.page.currentPage, per_page: this.page.pageSize }
+        params: {
+          collect: this.activeName === 'collect',
+          page: this.page.currentPage,
+          per_page: this.page.pageSize
+        }
       }).then(result => {
         this.list = result.data.results
         this.page.total = result.data.total_count
