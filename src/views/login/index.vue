@@ -32,8 +32,8 @@ export default {
   data () {
     return {
       loginForm: {
-        mobile: '',
-        code: '',
+        mobile: '13911111111',
+        code: '246810',
         check: false
       },
       loginRules: {
@@ -72,9 +72,12 @@ export default {
             method: 'post',
             data: this.loginForm
           }).then(result => {
-            // window.localStorage.setItem('user-token', result.token)
-            // console.log(result)
-            this.$router.push('./home')
+            console.log(result)
+            window.localStorage.setItem('user-token', result.data.token)
+            console.log(result)
+            // console.log(this.$router)
+            this.$router.push('/home')
+
           // }).catch(error => {
           //   console.log(error)
           //   this.$message({
