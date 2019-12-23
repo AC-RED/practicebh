@@ -4,7 +4,7 @@
           <template slot="title">素材管理</template>
       </crumbs>
 
-      <el-tabs v-model="activeName">
+      <el-tabs v-model="activeName" @tab-click='changeTab'>
           <el-tab-pane label="全部素材" name="all">
               <div class="img-list">
                   <el-card class="img-card" v-for="item in list" :key="item.id">
@@ -16,7 +16,13 @@
                   </el-card>
               </div>
           </el-tab-pane>
-          <el-tab-pane label="收藏素材" name="collect"></el-tab-pane>
+          <el-tab-pane label="收藏素材" name="collect">
+              <div class="img-list">
+                  <el-card class="img-card" v-for="item in list" :key="item.id">
+                      <img :src="item.url" alt="">
+                  </el-card>
+              </div>
+          </el-tab-pane>
       </el-tabs>
   </el-card>
 </template>
@@ -30,10 +36,13 @@ export default {
     }
   },
   methods: {
+    changeTab () {
+      this.getAllMaterial()
+    },
     getAllMaterial () {
       this.$axios({
         url: '/user/images',
-        params: { collect: false }
+        params: { collect: this.activeName === 'collect' }
       }).then(result => {
         this.list = result.data.results
       })
