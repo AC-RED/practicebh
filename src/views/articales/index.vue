@@ -45,6 +45,33 @@
         ></el-date-picker>
       </el-col>
     </el-row>
+
+    <!-- 主体 -->
+    <el-row class="total">
+      <span>123456789</span>
+    </el-row>
+
+    <!-- 循环模板 -->
+
+    <el-row class="article-item" type="flex" justify="space-between">
+      <el-col :span="10">
+        <el-row type="flex">
+          <img src="../../assets/img/404.png" alt />
+
+          <div class="info">
+            <span>年少</span>
+            <el-tag>标签一</el-tag>
+            <span class="date">2019</span>
+          </div>
+        </el-row>
+      </el-col>
+      <el-col :span="6" class="right">
+        <el-row type="flex" justify="end">
+            <span><i class="el-icon-edit"></i>修改</span>
+            <span><i class="el-icon-delete"></i>删除</span>
+        </el-row>
+      </el-col>
+    </el-row>
   </el-card>
 </template>
 
@@ -80,6 +107,39 @@ export default {
   .searchTool {
     height: 60px;
     padding-left: 50px;
+  }
+  .total {
+    margin: 50px 0;
+    height: 30px;
+    border-bottom: 1px dashed gray
+  }
+  .article-item {
+      margin: 20px 0;
+      padding: 10px 0;
+      border-bottom: 1px solid orange;
+    img {
+      width: 150px;
+      height: 100px;
+      margin-right: 10px;
+      border-radius: 10px
+    }
+    .info {
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .date{
+            color: rgb(219, 212, 212);
+            font-size: 12px
+        }
+    }
+    .right {
+        span {
+            margin-right: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    }
   }
 }
 </style>
