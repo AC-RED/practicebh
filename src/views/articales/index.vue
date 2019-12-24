@@ -10,7 +10,7 @@
       </el-col>
 
       <el-col :span="18">
-        <el-radio-group v-model="fromData.status">
+        <el-radio-group @change="changeCondition" v-model="fromData.status">
           <el-radio :label="5">全部</el-radio>
           <el-radio :label="0">草稿</el-radio>
           <el-radio :label="1">待审核</el-radio>
@@ -25,7 +25,7 @@
       </el-col>
 
       <el-col :span="18">
-        <el-select v-model="fromData.channel_id">
+        <el-select @change="changeCondition" v-model="fromData.channel_id">
           <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-col>
@@ -37,6 +37,8 @@
 
       <el-col :span="18">
         <el-date-picker
+        @change="changeCondition"
+          value-format="yyyy-MM-dd"
           v-model="fromData.dateRange"
           type="daterange"
           range-separator="-"
@@ -121,7 +123,19 @@ export default {
       }
     }
   },
+
   methods: {
+    changeCondition () {
+      let params = {
+        status: this.fromData.status === 5 ? null : this.fromData.status,
+        channel_id: this.fromData.channel_id,
+        begin_pubdate: this.fromData.dateRange.length ? this.fromData.dateRange[0] : null,
+        end_pubdate: this.fromData.dateRange.length > 1 ? this.fromData.dateRange[1] : null
+
+      }
+      this.gitArticles(params)
+      debugger
+    },
     getChannels () {
       this.$axios({
         url: '/channels'
@@ -129,9 +143,10 @@ export default {
         this.channels = results.data.channels
       })
     },
-    gitArticles () {
+    gitArticles (params) {
       this.$axios({
-        url: '/articles'
+        url: '/articles',
+        params
       }).then(result => {
         this.list = result.data.results
       })
