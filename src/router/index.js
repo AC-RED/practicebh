@@ -35,6 +35,9 @@ const routes = [
     }, {
       path: 'material', // 素材管理
       component: () => import('../views/material')
+    }, {
+      path: 'articles',
+      component: () => import('../views/articales')
     }]
   }, {
     // 登录页
