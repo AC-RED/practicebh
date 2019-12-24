@@ -5,7 +5,7 @@
     </crumbs>
 
     <el-row type="flex" justify="end">
-      <el-upload :http-request="uploadImg" :show-file-list="false">
+      <el-upload action="" :http-request="uploadImg" :show-file-list="false">
         <el-button size="small" type="primary">点击上传</el-button>
       </el-upload>
     </el-row>
@@ -16,8 +16,8 @@
           <el-card class="img-card" v-for="item in list" :key="item.id">
             <img :src="item.url" alt />
             <el-row class="operate" type="flex" align="middle" justify="space-around">
-              <i class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+              <i @click="collectOrcancel(item)" :style="{color: item.is_collected? 'red' : ''}" class="el-icon-star-on"></i>
+              <i @click="delMaterial(item.id)" class="el-icon-delete-solid"></i>
             </el-row>
           </el-card>
         </div>
@@ -70,6 +70,27 @@ export default {
     }
   },
   methods: {
+    delMaterial (id) {
+      this.$confirm('确定删除？').then(() => {
+        this.$axios({
+          url: `/user/images/${id}`,
+          method: 'delete'
+        }).then(() => {
+          this.getAllMaterial()
+        })
+      })
+    },
+    collectOrcancel (row) {
+      this.$axios({
+        url: `/user/images/${row.id}`,
+        method: 'put',
+        data: {
+          collect: !row.is_collected
+        }
+      }).then(() => {
+        this.getAllMaterial()
+      })
+    },
     uploadImg (params) {
       this.loading = true
       let form = new FormData() // 添加文件到formData
@@ -133,6 +154,9 @@ export default {
       bottom: 0;
       left: 0px;
       background-color: rgb(248, 242, 242);
+      i {
+        cursor: pointer;
+      }
     }
   }
 }

@@ -17,7 +17,7 @@ axios.interceptors.request.use(function (config) {
 axios.defaults.transformResponse = [function (data) {
   // data 是响应回来的字符串
 
-  return JSONBig.parse(data)
+  return data ? JSONBig.parse(data) : {}
 }]
 
 axios.interceptors.response.use(function (response) {
