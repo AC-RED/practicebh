@@ -53,15 +53,15 @@
 
     <!-- 循环模板 -->
 
-    <el-row class="article-item" type="flex" justify="space-between">
+    <el-row v-for="item in list" :key="item.id.toString()" class="article-item" type="flex" justify="space-between">
       <el-col :span="10">
         <el-row type="flex">
-          <img src="../../assets/img/404.png" alt />
+          <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt />
 
           <div class="info">
-            <span>年少</span>
-            <el-tag>标签一</el-tag>
-            <span class="date">2019</span>
+            <span>{{item.title}}</span>
+            <el-tag :type='item.status | filterType' class="tag">{{item.status | filterStatus}}</el-tag>
+            <span class="date">{{item.pubdate}}</span>
           </div>
         </el-row>
       </el-col>
@@ -84,7 +84,41 @@ export default {
         channel_id: null,
         dateRange: []
       },
-      channels: []
+      channels: [],
+      list: [],
+      defaultImg: require('../../assets/img/back.png')
+    }
+  },
+  filters: {
+    filterStatus (value) {
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已发表'
+        case 3:
+          return '审核失败'
+
+        default:
+          break
+      }
+    },
+    filterType (value) {
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return ''
+        case 3:
+          return 'danger'
+
+        default:
+          break
+      }
     }
   },
   methods: {
@@ -94,10 +128,18 @@ export default {
       }).then(results => {
         this.channels = results.data.channels
       })
+    },
+    gitArticles () {
+      this.$axios({
+        url: '/articles'
+      }).then(result => {
+        this.list = result.data.results
+      })
     }
   },
   created () {
     this.getChannels()
+    this.gitArticles()
   }
 }
 </script>
@@ -116,7 +158,7 @@ export default {
   .article-item {
       margin: 20px 0;
       padding: 10px 0;
-      border-bottom: 1px solid orange;
+      border-bottom: 1px solid rgb(243, 205, 134);
     img {
       width: 150px;
       height: 100px;
@@ -131,6 +173,10 @@ export default {
         .date{
             color: rgb(219, 212, 212);
             font-size: 12px
+        }
+        .tag{
+            max-width: 70px;
+            text-align: center
         }
     }
     .right {
