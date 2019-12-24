@@ -10,11 +10,11 @@
       </el-col>
 
       <el-col :span="18">
-        <el-radio-group v-model="radio">
-          <el-radio :label="3">全部</el-radio>
-          <el-radio :label="3">草稿</el-radio>
-          <el-radio :label="3">待审核</el-radio>
-          <el-radio :label="3">审核通过</el-radio>
+        <el-radio-group v-model="fromData.status">
+          <el-radio :label="5">全部</el-radio>
+          <el-radio :label="0">草稿</el-radio>
+          <el-radio :label="1">待审核</el-radio>
+          <el-radio :label="2">审核通过</el-radio>
           <el-radio :label="3">审核失败</el-radio>
         </el-radio-group>
       </el-col>
@@ -25,8 +25,8 @@
       </el-col>
 
       <el-col :span="18">
-        <el-select>
-          <el-option></el-option>
+        <el-select v-model="fromData.channel_id">
+          <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-col>
     </el-row>
@@ -36,13 +36,13 @@
       </el-col>
 
       <el-col :span="18">
-        <el-time-picker
-          is-range
+        <el-date-picker
+          v-model="fromData.dateRange"
+          type="daterange"
           range-separator="-"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
-          placeholder="选择时间范围"
-        ></el-time-picker>
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-col>
     </el-row>
   </el-card>
@@ -51,7 +51,26 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      fromData: {
+        status: 5,
+        channel_id: null,
+        dateRange: []
+      },
+      channels: []
+    }
+  },
+  methods: {
+    getChannels () {
+      this.$axios({
+        url: '/channels'
+      }).then(results => {
+        this.channels = results.data.channels
+      })
+    }
+  },
+  created () {
+    this.getChannels()
   }
 }
 </script>
