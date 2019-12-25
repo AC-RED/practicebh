@@ -70,7 +70,7 @@
       <el-col :span="6" class="right">
         <el-row type="flex" justify="end">
             <span><i class="el-icon-edit"></i>修改</span>
-            <span><i class="el-icon-delete"></i>删除</span>
+            <span @click="delArticle(item.id)"><i class="el-icon-delete"></i>删除</span>
         </el-row>
       </el-col>
     </el-row>
@@ -143,6 +143,21 @@ export default {
   },
 
   methods: {
+    // 删除文章
+    delArticle (id) {
+      this.$confirm('确定删除？').then(() => {
+        this.$axios({
+          url: `/articles/${id.toString()}`,
+          method: 'delete'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+          this.getConditionArticles()
+        })
+      })
+    },
     // 改页数
     changePage (newPage) {
       this.page.currentPage = newPage
