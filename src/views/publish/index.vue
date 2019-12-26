@@ -13,7 +13,7 @@
       <el-form-item prop="content" label="内容">
         <quill-deitor style="height:400px" v-model="formData.content" type="textarea" :rows="4"></quill-deitor>
       </el-form-item>
-      <el-form-item prop="type" label="封面" style="margin-top:100px">
+      <el-form-item prop="type" label="封面" style="margin-top:140px">
         <el-radio-group v-model="formData.cover.type">
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
@@ -59,7 +59,7 @@ export default {
   watch: {
     $route: function (to, from) {
       if (Object.keys(to.params).length) {
-
+        this.getAryicleById(to.params.articleId)
       } else {
         this.formData = {
           title: '',
@@ -70,6 +70,16 @@ export default {
           },
           channel_id: null
         }
+      }
+    },
+    // 监控type变化同时改变img
+    'formData.cover.type': function () {
+      if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+        this.formData.cover.images = []
+      } else if (this.formData.cover.type === 1) {
+        this.formData.cover.images = ['']
+      } else if (this.formData.cover.type === 3) {
+        this.formData.cover.images = ['', '', '']
       }
     }
   },
