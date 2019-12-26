@@ -38,6 +38,9 @@ const routes = [
     }, {
       path: 'articles',
       component: () => import('../views/articales')
+    }, {
+      path: 'publish',
+      component: () => import('../views/publish')
     }]
   }, {
     // 登录页
