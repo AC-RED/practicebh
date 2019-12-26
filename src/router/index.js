@@ -39,7 +39,10 @@ const routes = [
       path: 'articles',
       component: () => import('../views/articales')
     }, {
-      path: 'publish',
+      path: 'publish/:articleId',
+      component: () => import('../views/publish')
+    }, {
+      path: 'publish', // 此规则匹配发布文章
       component: () => import('../views/publish')
     }]
   }, {

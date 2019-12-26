@@ -56,6 +56,23 @@ export default {
       }
     }
   },
+  watch: {
+    $route: function (to, from) {
+      if (Object.keys(to.params).length) {
+
+      } else {
+        this.formData = {
+          title: '',
+          content: '',
+          cover: {
+            type: 0,
+            images: []
+          },
+          channel_id: null
+        }
+      }
+    }
+  },
   methods: {
     //   获取频道
     getChannels () {
