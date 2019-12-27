@@ -8,6 +8,7 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
 import CoverImage from './publish/cover-image'
+import SelectImage from './publish/select-image'
 // 所有自定义组件的插件
 export default {
   install: function (Vue) {
@@ -16,5 +17,6 @@ export default {
     Vue.component('crumbs', Crumbs)// 注册面包屑
     Vue.component('quill-deitor', quillEditor)// 全局注册富文本编辑器
     Vue.component('cover-image', CoverImage)// 注册一个封面图片组件
+    Vue.component('select-image', SelectImage)
   }
 }
