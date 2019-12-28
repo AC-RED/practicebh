@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -34,24 +35,34 @@ export default {
   },
   created () {
     // let token = window.localStorage.getItem('user-token')
-    this.$axios({
-      url: '/user/profile'
+    this.getUserInfo()
+
+    // 在实例创建完成时立即开始监听
+    eventBus.$on('updateUserInfoSuccess', () => {
+      this.getUserInfo()
+    })
+  },
+  methods: {
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile'
       //   method: 'get',
       // headers: {
       //   Authorization: 'Bearer ' + token
       // }
-    }).then(result => {
-      console.log(result)
-      this.userInfo = result.data
-    })
-  },
-  methods: {
+      }).then(result => {
+        console.log(result)
+        this.userInfo = result.data
+      })
+    },
     logout (command) {
       if (command === 'logout') {
         window.localStorage.removeItem('user-token')
         this.$router.push('/login')
       } else if (command === 'gitspc') {
         window.location.href = 'https://github.com/shuiruohanyu/89heimatoutiao'
+      } else if (command === 'user') {
+        this.$router.push('/home/account')
       }
     }
   }
