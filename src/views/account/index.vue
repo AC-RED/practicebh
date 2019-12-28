@@ -5,21 +5,21 @@
       </crumbs>
 
       <el-upload class="head-upload" action="" :show-file-list="false">
-          <img src="../../assets/img/default.gif" alt="">
+          <img :src="formData.photo? formData.photo:defaultImg" alt="">
       </el-upload>
 
       <el-form style="margin-left:100px" label-width="100px">
           <el-form-item label="用户名">
-              <el-input style="width:30%"></el-input>
+              <el-input v-model="formData.name" style="width:30%"></el-input>
           </el-form-item>
-          <el-form-item label="简介">
+          <el-form-item v-model="formData.intro" label="简介">
               <el-input style="width:30%"></el-input>
           </el-form-item>
           <el-form-item label="邮箱">
-              <el-input style="width:30%"></el-input>
+              <el-input v-model="formData.email" style="width:30%"></el-input>
           </el-form-item>
           <el-form-item label="手机号">
-              <el-input disabled style="width:30%"></el-input>
+              <el-input v-model="formData.mobile" disabled style="width:30%"></el-input>
           </el-form-item>
 
           <el-form-item>
@@ -31,7 +31,30 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      formData: {
+        name: '',
+        intro: '',
+        photo: '',
+        email: '',
+        mobile: ''
+      },
+      defaultImg: require('../../assets/img/default.gif')
+    }
+  },
+  methods: {
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile'
+      }).then(result => {
+        this.formData = result.data
+      })
+    }
+  },
+  created () {
+    this.getUserInfo()
+  }
 }
 </script>
 
