@@ -44,6 +44,9 @@ const routes = [
     }, {
       path: 'publish', // 此规则匹配发布文章
       component: () => import('../views/publish')
+    }, {
+      path: 'account',
+      component: () => import('../views/account')
     }]
   }, {
     // 登录页
