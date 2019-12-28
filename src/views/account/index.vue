@@ -1,10 +1,10 @@
 <template>
-  <el-card>
+  <el-card v-loading='loading'>
       <crumbs slot="header">
           <template slot="title">账户信息</template>
       </crumbs>
 
-      <el-upload class="head-upload" action="" :show-file-list="false">
+      <el-upload :http-request="uploadImg" class="head-upload" action="" :show-file-list="false">
           <img :src="formData.photo? formData.photo:defaultImg" alt="">
       </el-upload>
 
@@ -45,10 +45,24 @@ export default {
         name: [{ required: true, message: '用户名不能为空' }, { min: 1, max: 7, message: '用户名的长度限制为1到7个字符' }],
         email: [{ required: true, message: '邮箱不能为空' }, { pattern: /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/, message: '邮箱格式不正确' }]
 
-      }
+      },
+      loading: false
     }
   },
   methods: {
+    uploadImg (params) {
+      this.loading = true
+      let data = new FormData()
+      data.append('photo', params.file)
+      this.$axios({
+        url: '/user/photo',
+        method: 'patch',
+        data
+      }).then(result => {
+        this.formData.photo = result.data.photo
+        this.loading = false
+      })
+    },
     saveUserInfo () {
       this.$refs.myForm.validate((isOk) => {
         if (isOk) {
@@ -81,16 +95,13 @@ export default {
 
 <style lang='less' scoped>
 .head-upload{
-    width: 200px;
-    height: 200px;
     position: absolute;
     right: 300px;
-    border: 1px dashed gray;
-    border-radius: 50%;
     img {
         width: 200px;
         height: 200px;
-        border-radius: 50%
+        border-radius: 50%;
+        z-index: 10;
     }
 }
 </style>
