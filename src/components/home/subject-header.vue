@@ -1,7 +1,7 @@
 <template>
   <el-row type="flex" justify="space-between">
     <el-col :span="6" class="head-left">
-      <i class="el-icon-s-unfold"></i>
+      <i @click="collaspseOrOpen" :class="{'el-icon-s-unfold':collaspse,'el-icon-s-fold':!collaspse}"></i>
       <span class="title">江苏传智播客教育股份有限公司</span>
     </el-col>
     <el-col :span="6" class="head-right">
@@ -29,6 +29,7 @@ import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
+      collaspse: false,
       userInfo: {},
       defaultImg: require('../../assets/img/avatar.jpg')
     }
@@ -43,6 +44,10 @@ export default {
     })
   },
   methods: {
+    collaspseOrOpen () {
+      this.collaspse = !this.collaspse
+      eventBus.$emit('changeCollapse')
+    },
     getUserInfo () {
       this.$axios({
         url: '/user/profile'
