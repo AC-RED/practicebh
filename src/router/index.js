@@ -13,46 +13,49 @@ Vue.prototype.$axios = axios
 
 // axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 
-const routes = [
-  {
-    path: '/login2',
-    component: Login2
+const routes = [{
+  path: '*',
+  component: () => import('../views/404')
+},
+{
+  path: '/login2',
+  component: Login2
+}, {
+  path: '/',
+  redirect: '/home'
+},
+{
+  //  主页
+  path: '/home',
+  name: 'home',
+  component: Home,
+  children: [{
+    path: '',
+    component: homeDirect
   }, {
-    path: '/',
-    redirect: '/home'
-  },
-  {
-    //  主页
-    path: '/home',
-    name: 'home',
-    component: Home,
-    children: [{
-      path: '',
-      component: homeDirect
-    }, {
-      path: '/home/comment', // 评论管理
-      component: () => import('../views/comments')
-    }, {
-      path: 'material', // 素材管理
-      component: () => import('../views/material')
-    }, {
-      path: 'articles',
-      component: () => import('../views/articales')
-    }, {
-      path: 'publish/:articleId',
-      component: () => import('../views/publish')
-    }, {
-      path: 'publish', // 此规则匹配发布文章
-      component: () => import('../views/publish')
-    }, {
-      path: 'account',
-      component: () => import('../views/account')
-    }]
+    path: '/home/comment', // 评论管理
+    component: () => import('../views/comments')
   }, {
-    // 登录页
-    path: '/login',
-    component: Login
-  }
+    path: 'material', // 素材管理
+    component: () => import('../views/material')
+  }, {
+    path: 'articles',
+    component: () => import('../views/articales')
+  }, {
+    path: 'publish/:articleId',
+    component: () => import('../views/publish')
+  }, {
+    path: 'publish', // 此规则匹配发布文章
+    component: () => import('../views/publish')
+  }, {
+    path: 'account',
+    component: () => import('../views/account')
+  }]
+}, {
+  // 登录页
+  path: '/login',
+  component: Login
+}
   // {
   //   path: '/about',
   //   name: 'about',
