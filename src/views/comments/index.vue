@@ -1,5 +1,5 @@
 <template>
-  <el-card v-loading='loading'>
+  <el-card v-loading="loading">
     <crumbs slot="header">
       <template slot="title">评论列表</template>
     </crumbs>
@@ -22,14 +22,15 @@
     </el-table>
 
     <el-row type="flex" justify="center" align="middle" style="height:80px;">
-      <el-pagination background layout="prev, pager, next"
-      :current-page='page.currentPage'
-      :page-size='page.pageSize'
-      :total="page.total"
-      @current-change = 'chengePage'
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :current-page="page.currentPage"
+        :page-size="page.pageSize"
+        :total="page.total"
+        @current-change="chengePage"
       ></el-pagination>
     </el-row>
-
   </el-card>
 </template>
 
@@ -53,40 +54,38 @@ export default {
       this.getComment()
     },
 
-    getComment () {
+    async getComment () {
       this.loading = true
-      this.$axios({
+      let result = await this.$axios({
         url: '/articles',
         params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
-      }).then(result => {
-        this.list = result.data.results
-        this.page.total = result.data.total_count
-        this.loading = false
       })
+      this.list = result.data.results
+      this.page.total = result.data.total_count
+      this.loading = false
     },
     fromatterBool (row, column, cellValue, index) {
       return cellValue ? '正常' : '关闭'
     },
-    openORcloss (row) {
+    async openORcloss (row) {
       let mess = row.comment_status ? '关闭' : '打开'
-      this.$confirm(`你确定要${mess}评论吗`).then(() => {
-        this.$axios({
-          method: 'put',
-          url: '/comments/status',
-          params: {
-            article_id: row.id.toString()
-          },
-          data: {
-            allow_comment: !row.comment_status
-          }
-        }).then(result => {
-          this.$message({
-            type: 'success',
-            message: '操作成功'
-          })
-          this.getComment()
-        })
+      await this.$confirm(`你确定要${mess}评论吗`)
+
+      await this.$axios({
+        method: 'put',
+        url: '/comments/status',
+        params: {
+          article_id: row.id.toString()
+        },
+        data: {
+          allow_comment: !row.comment_status
+        }
       })
+      this.$message({
+        type: 'success',
+        message: '操作成功'
+      })
+      this.getComment()
     }
   },
   created () {

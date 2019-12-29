@@ -70,15 +70,13 @@ export default {
     }
   },
   methods: {
-    delMaterial (id) {
-      this.$confirm('确定删除？').then(() => {
-        this.$axios({
-          url: `/user/images/${id}`,
-          method: 'delete'
-        }).then(() => {
-          this.getAllMaterial()
-        })
+    async delMaterial (id) {
+      await this.$confirm('确定删除？')
+      await this.$axios({
+        url: `/user/images/${id}`,
+        method: 'delete'
       })
+      this.getAllMaterial()
     },
     collectOrcancel (row) {
       this.$axios({
